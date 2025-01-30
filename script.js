@@ -138,31 +138,8 @@ function confirmAnswer() {
 }
 
 // 答えを確認する処理
-function confirmAnswer() {
-    const correctIndex = questions[currentQuestionIndex].answer;
-    const isCorrect = selectedChoiceIndex === correctIndex;
 
-    choiceButtons.forEach((button, i) => {
-        button.disabled = true;
-        if (i === correctIndex) {
-            button.classList.add("correct");
-        } else if (i === selectedChoiceIndex) {
-            button.classList.add("wrong");
-        }
-    });
 
-    // 効果音を再生
-    if (isCorrect) {
-        document.getElementById('correct-sound').play();
-        
-    } else {
-        document.getElementById('wrong-sound').play();
-        
-    }
-
-    confirmButton.classList.add("hidden");
-    nextButton.classList.remove("hidden");
-}
 
 function showResult() {
     const quizContainer = document.getElementById("quiz");  // クイズコンテナを取得
@@ -198,12 +175,19 @@ nextButton.addEventListener("click", () => {
     }
 });
 
+
 // リスタート処理
 document.getElementById("restart-btn").addEventListener("click", () => {
     resultContainer.classList.add("hidden"); // 結果画面を非表示
-    document.getElementById("quiz").classList.remove("hidden"); // クイズ画面を再表示
-    startQuiz(); // クイズを再スタート
+    startScreen.classList.remove("hidden"); // スタート画面を再表示
+    document.getElementById("quiz").classList.add("hidden"); // クイズ画面を非表示
+
+    // もう一度クイズを開始
+    currentQuestionIndex = 0; // 問題番号をリセット
+    score = 0; // スコアをリセット
+    showQuestion(); // 最初の問題を表示
 });
+
 
 // 答え確認ボタンのイベントリスナー
 confirmButton.addEventListener("click", confirmAnswer);
